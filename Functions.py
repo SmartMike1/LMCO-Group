@@ -30,10 +30,10 @@ def get_engine():
     )
 
 # Функция обновления приложения
-def update_version(self):
+def update_version():
     try:
-        version_url = "https://raw.githubusercontent.com/username/repo/main/version.txt"
-        zip_url = "https://github.com/username/repo/archive/refs/heads/main.zip"
+        version_url = "https://github.com/SmartMike1/LMCO-Group/blob/main/version.txt"
+        zip_url = "https://github.com/SmartMike1/LMCO-Group/archive/refs/heads/main.zip"
         zip_path = "update.zip"
         extract_path = "обновлённые_файлы"
 
@@ -238,19 +238,5 @@ def on_key_press(event):
 def on_key_release(event):
     event.widget.config(relief="raised")
     event.widget.invoke()  # Вызвать действие
-
-# Функция проявления некоторых одинаковых виджетов
-# def init_form(self):
-#     self.window.update()
-#     self.form = Frame(self.window, width=self.window.winfo_width())
-#     self.form.grid(row=0, column=0, columnspan=3, sticky="snwe", padx=10, pady=10)
-
-#     label = Label(self.form, text="Введите номер реактива:")
-#     label.grid(row=0, column=0, sticky="w", padx=10, pady=10)
-#     self.number = Entry(self.form)
-#     self.number.grid(row=0, column=1, sticky="w", padx=10, pady=10)
-
-#     button = Button(self.form, text="Найти", command=self.search)
-#     button.grid(row=0, column=2, sticky="w", padx=10, pady=10)
 
 engine = get_engine()
