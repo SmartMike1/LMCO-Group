@@ -89,8 +89,8 @@ def update_version():
 
         # Перезапуск приложения
         messagebox.showinfo("Готово", "Обновление установлено. Приложение будет перезапущено.")
-        sys.exit()  # Завершение текущего
         subprocess.Popen([sys.executable] + sys.argv)  # Запуск нового экземпляра
+        sys.exit()  # Завершение текущего
 
     except Exception as e:
         messagebox.showerror("Ошибка обновления", str(e))
