@@ -38,7 +38,7 @@ def update_version():
         extract_path = "обновлённые_файлы"
 
         # Чтение текущей локальной версии из файла
-        with open("version.txt", "r", encoding="utf-8") as f:
+        with open("version.txt", "r") as f: # , encoding="utf-8"
             current_version = f.read().strip()
 
         # Получение версии с GitHub
