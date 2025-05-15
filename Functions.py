@@ -32,7 +32,7 @@ def get_engine():
 # Функция обновления приложения
 def update_version():
     try:
-        version_url = "https://github.com/SmartMike1/LMCO-Group/blob/main/version.txt"
+        version_url = "https://raw.githubusercontent.com/SmartMike1/LMCO-Group/refs/heads/main/version.txt"
         zip_url = "https://github.com/SmartMike1/LMCO-Group/archive/refs/heads/main.zip"
         zip_path = "update.zip"
         extract_path = "обновлённые_файлы"
