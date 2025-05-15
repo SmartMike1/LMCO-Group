@@ -1,5 +1,3 @@
-# IntegrityError - ошибка целостности данных.
-
 import textwrap
 import webbrowser
 from Functions import *
@@ -46,16 +44,19 @@ class LoginWindow(BasedWindow):
         self.password = Entry(self, show="*", font=self.font, background="lightgray")
         self.password.grid(row=1, column=1, sticky="w", padx=5)
 
-        button = styled_button(self, text="Войти", command=self.try_login)
-        button.grid(row=2, column=1, sticky="w", padx=10, pady=10)
+        button1 = styled_button(self, text="Войти", command=self.try_login)
+        button1.grid(row=2, column=1, sticky="w", padx=10, pady=10)
+
+        button2 = styled_button(self, text="Обновить", command=update_version)
+        button2.grid(row=2, column=0, sticky="w", padx=10, pady=10)
 
         self.login.focus_set()
         self.login.bind("<FocusIn>", on_focus_in)
         self.password.bind("<FocusIn>", on_focus_in)
-        button.bind("<Button-1>", on_key_press)
-        button.bind("<Button-3>", on_key_press)
-        button.bind("<KeyPress-Return>", on_key_press)
-        button.bind("<KeyRelease-Return>", on_key_release)
+        button1.bind("<Button-1>", on_key_press)
+        button1.bind("<Button-3>", on_key_press)
+        button1.bind("<KeyPress-Return>", on_key_press)
+        button1.bind("<KeyRelease-Return>", on_key_release)
 
         # Изменяем размер виджетов при изменении геометрической сетки
         for i in range(0,2):
@@ -89,7 +90,7 @@ class Application(BasedWindow):
                         width=600, height=400)
         self.protocol("WM_DELETE_WINDOW", master.destroy)
 
-        self.img = Image.open("..\Pictures\Logo-LMCO.png")
+        self.img = Image.open("..\assets\Logo-LMCO.png")
         self.img = self.img.resize((75, 75))
         self.photo = ImageTk.PhotoImage(self.img)
 
@@ -368,41 +369,3 @@ if __name__ == "__main__":
     login = LoginWindow(master=root, engine=engine)
 
     login.mainloop()
-
-# ===========================
-# Отработка рандомной функции
-# УСПЕХ!
-# ===========================
-
-# # Добавление данных в таблицу Базы Данных
-# def update(cursor, table, data):
-#     try:
-#         cursor.execute('INSERT INTO '+table+' VALUES (?, ?, ?, ?, ?)',
-#                         (data))
-#         cursor.commit()
-#     except Exception:
-#         print("\nОшибка целостности данных!\n")
-
-
-# conn = engine.connect()
-
-# table, code, number  = 'Клиент', 3, 49
-# F, I, O = 'Никитин', 'Никита', 'Никитич'
-# data = code, number, F, I, O
-# update(conn, table, data)
-
-# # print("\n\nВывод (всратый)")
-# result = conn.execute(text("SELECT * FROM Клиент"))
-# # print(cursor.fetchall())
-# for row in result:
-#     for data in row:
-#         d = data.strip()
-#         print(d, end=" ")
-#     print("\n")
-
-# engine = get_engine()
-# root = Tk()
-# app = Application(master=root, engine=engine)
-# app.mainloop()
-
-# conn.close()
