@@ -104,7 +104,7 @@ def update_sql_procedures(folder_path):
     for filename in os.listdir(sql_folder):
         if filename.endswith(".sql"):
             file_path = os.path.join(sql_folder, filename)
-            with open(file_path, 'r', encoding="utf-8") as file:
+            with open(file_path, 'r') as file: #, encoding="utf-8"
                 sql_code = file.read()
             try:
                 with engine.connect() as conn:
