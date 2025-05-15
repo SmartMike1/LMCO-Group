@@ -89,14 +89,24 @@ def update_version():
 
         # Перезапуск приложения
         messagebox.showinfo("Готово", "Обновление установлено. Приложение будет перезапущено.")
-
-        # Универсальный способ перезапуска
-        exe_path = sys.executable if getattr(sys, 'frozen', False) else sys.argv[0]
-        subprocess.Popen([exe_path])
-        sys.exit()
+        restart_program()
 
     except Exception as e:
         messagebox.showerror("Ошибка обновления", str(e))
+
+# Функция перезапуска программы
+def restart_program():
+    if getattr(sys, 'frozen', False):
+        # Если запущено как .exe
+        exe_path = sys.executable
+        subprocess.Popen([exe_path])
+        sys.exit()
+    else:
+        # Если запущено как .py
+        exe_path = sys.executable
+        script_path = os.path.abspath(sys.argv[0])
+        subprocess.Popen([exe_path, script_path])
+        sys.exit()
 
 # Функция обновления хранимых процедур
 def update_sql_procedures(folder_path):
