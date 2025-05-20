@@ -90,7 +90,7 @@ class Application(BasedWindow):
                         width=600, height=400)
         self.protocol("WM_DELETE_WINDOW", master.destroy)
 
-        self.img = Image.open("..\assets\Logo-LMCO.png")
+        self.img = Image.open("images\Logo-LMCO.png")
         self.img = self.img.resize((75, 75))
         self.photo = ImageTk.PhotoImage(self.img)
 
