@@ -6,6 +6,7 @@ import threading
 import subprocess
 import sys
 import traceback
+import os
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -55,20 +56,17 @@ def run_main_script():
     try:
         with open("error.log", "w") as log_file:
             log_file.write("[Запуск Diplom.py]\n")
-            result = subprocess.run(
+            subprocess.Popen(
                 [sys.executable, MAIN_SCRIPT],
                 stdout=log_file,
                 stderr=log_file,
                 shell=True
             )
-            log_file.write(f"[Diplom.py завершён с кодом {result.returncode}]\n")
+            log_file.write("[Diplom.py запущен]\n")
     except Exception as e:
         with open("error.log", "a") as log_file:
             log_file.write(f"\n[Launcher Error] {e}\n")
             log_file.write(traceback.format_exc())
-        messagebox.showerror("Ошибка запуска", f"Не удалось запустить {MAIN_SCRIPT}.\nСмотри error.log")
-    finally:
-        sys.exit(0)
 
 # ==== GUI интерфейс ====
 class LauncherApp(tk.Tk):
@@ -109,10 +107,11 @@ class LauncherApp(tk.Tk):
             else:
                 self.log("Обновление не требуется.")
 
-            self.log("Запуск приложения...")
             self.progress.stop()
+            self.log("Запуск приложения...")
+            self.update_idletasks()
+            run_main_script()  # тут subprocess блокирует поток
             self.destroy()
-            run_main_script()
 
         except Exception as e:
             self.progress.stop()
