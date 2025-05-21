@@ -43,7 +43,7 @@ def download_and_extract_update(update_log_callback):
                 rel_path = member.replace(REPO_SUBDIR, "")
                 if rel_path:
                     # ❗ Исключаем launcher.py (и .exe, на всякий случай)
-                    if rel_path.lower() in ("launcher.py", "launcher.exe"):
+                    if rel_path.lower() in ("Launcher.py", "Launcher.exe"):
                         continue
 
                     full_path = os.path.join(".", rel_path)
