@@ -6,7 +6,6 @@ import threading
 import subprocess
 import sys
 import traceback
-import os
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -15,9 +14,9 @@ GITHUB_ZIP_URL = "https://github.com/SmartMike1/LMCO-Group/archive/refs/heads/ma
 REMOTE_VERSION_URL = "https://raw.githubusercontent.com/SmartMike1/LMCO-Group/main/version.txt"
 LOCAL_VERSION_FILE = "version.txt"
 MAIN_SCRIPT = "Diplom.py"
-REPO_SUBDIR = "LMCO-Group-main/"
+REPO_SUBDIR = "LMCO-Group-main/"  # Папка внутри архива GitHub
 
-
+# ==== Чтение локальной версии ====
 def get_local_version():
     try:
         with open(LOCAL_VERSION_FILE, "r") as f:
@@ -25,7 +24,7 @@ def get_local_version():
     except FileNotFoundError:
         return "0.0.0"
 
-
+# ==== Получение версии из GitHub ====
 def get_remote_version():
     try:
         response = requests.get(REMOTE_VERSION_URL, timeout=10)
@@ -33,7 +32,7 @@ def get_remote_version():
     except Exception:
         return None
 
-
+# ==== Скачивание и распаковка обновлений ====
 def download_and_extract_update(update_log_callback):
     update_log_callback("🔄 Скачивание обновлений...")
     response = requests.get(GITHUB_ZIP_URL)
@@ -42,7 +41,7 @@ def download_and_extract_update(update_log_callback):
             if member.startswith(REPO_SUBDIR):
                 rel_path = member.replace(REPO_SUBDIR, "")
                 if rel_path:
-                    # ❗ Исключаем launcher.py (и .exe, на всякий случай)
+                    # ⚠️ Игнорируем launcher.py/launcher.exe
                     if rel_path.lower() in ("Launcher.py", "Launcher.exe"):
                         continue
 
@@ -55,7 +54,7 @@ def download_and_extract_update(update_log_callback):
                             f.write(zip_ref.read(member))
     update_log_callback("✅ Обновление завершено.")
 
-
+# ==== Запуск Diplom.py ====
 def run_main_script():
     try:
         with open("error.log", "w") as log_file:
@@ -70,8 +69,9 @@ def run_main_script():
         with open("error.log", "a") as log_file:
             log_file.write(f"\n[Launcher Error] {e}\n")
             log_file.write(traceback.format_exc())
+        messagebox.showerror("Ошибка запуска", f"Не удалось запустить {MAIN_SCRIPT}.\nСмотри error.log")
 
-# ==== GUI интерфейс ====
+# ==== Графический интерфейс ====
 class LauncherApp(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -113,15 +113,15 @@ class LauncherApp(tk.Tk):
             self.progress.stop()
             self.log("Запуск приложения...")
             self.update_idletasks()
-            run_main_script()  # тут subprocess блокирует поток
-            self.destroy()
-            self.quit()
+            run_main_script()
 
         except Exception as e:
             self.progress.stop()
             messagebox.showerror("Ошибка запуска", f"Произошла ошибка: {e}")
+        finally:
             self.destroy()
+            self.quit()  # Важно для корректного закрытия при запуске как exe
 
-
+# ==== Точка входа ====
 if __name__ == "__main__":
     LauncherApp().mainloop()
