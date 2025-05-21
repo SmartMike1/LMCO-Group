@@ -63,8 +63,7 @@ def run_main_script():
             subprocess.Popen(
                 [sys.executable, MAIN_SCRIPT],
                 stdout=log_file,
-                stderr=log_file,
-                shell=True
+                stderr=log_file
             )
             log_file.write("[Diplom.py запущен]\n")
     except Exception as e:
@@ -116,6 +115,7 @@ class LauncherApp(tk.Tk):
             self.update_idletasks()
             run_main_script()  # тут subprocess блокирует поток
             self.destroy()
+            self.quit()
 
         except Exception as e:
             self.progress.stop()
