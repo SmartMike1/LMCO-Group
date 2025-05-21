@@ -208,6 +208,8 @@ def get_data_for_text(proc_name):
             for data in row:
                 if isinstance(data, str):
                     rows.append(data.strip())
+                else:
+                    rows.append(data)
         
     return columns, rows
 
@@ -225,11 +227,11 @@ def max_string_length(rows):
                     max_data = data
     return max_data, max_len
 
-# Функция изменения стиля кнопок
+# Функция изменения стиля Button
 def styled_button(master, **kwargs):
     Default = {
-    "bg": "#d0eaff",
-    "fg": "black",
+    "bg": "#036fc7",
+    "fg": "white",
     "font": ("Arial", 14),
     "relief": "solid",
     "borderwidth": 1,
@@ -238,6 +240,28 @@ def styled_button(master, **kwargs):
     params = Default.copy()
     params.update(kwargs)
     return Button(master, **params)
+
+# Функция изменения стиля Label
+def styled_label(master, **kwargs):
+    Default = {
+    "bg": "white",
+    "fg": "black",
+    "font": ("Arial", 14)
+    }
+    params = Default.copy()
+    params.update(kwargs)
+    return Label(master, **params)
+
+# Фукция установки белого фона всем дочерним элементам окна
+def set_white_bg_recursive(widget):
+    try:
+        if isinstance(widget, (Button, Text, Entry)):
+            return
+        widget.configure(bg="white")
+    except:
+        pass
+    for child in widget.winfo_children():
+        set_white_bg_recursive(child)
 
 # Изменение фона поля при фокусе в нём
 def on_focus_in(event):
