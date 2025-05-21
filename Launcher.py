@@ -120,4 +120,5 @@ class LauncherApp(tk.Tk):
 
 
 if __name__ == "__main__":
+    messagebox.showinfo("Старт", "Лаунчер запущен")
     LauncherApp().mainloop()
